@@ -260,32 +260,24 @@ class AuthService:
     
     # ========== JWT SESSION MANAGEMENT ==========
     
-    def generate_jwt(self, user_data: Dict) -> str:
-        """
-        Generate a signed JWT token for stateless session management.
-        
-        Args:
-            user_data: Dict containing user_id, auth_method, role
-            
-        Returns:
-            Signed JWT token string
-        """
+    def generate_jwt(self, user_data: dict):
+        import jwt
+        from datetime import datetime, timedelta
+
+        # Convert enum fields to string
+        if "role" in user_data:
+            user_data["role"] = str(user_data["role"])  # <-- THIS LINE fixes JSON serialization
+
         payload = {
-            'user_id': user_data['user_id'],
-            'auth_method': user_data['auth_method'],
-            'role': user_data['role'],
-            'iat': datetime.utcnow(),
-            'exp': datetime.utcnow() + timedelta(hours=2)  # 2-hour session
+            "user_id": user_data.get("id"),
+            "username": user_data.get("username"),
+            "role": user_data.get("role"),
+            "exp": datetime.utcnow() + timedelta(hours=1)
         }
-        
-        token = jwt.encode(
-            payload,
-            current_app.config['JWT_SECRET_KEY'],
-            algorithm='HS256'
-        )
-        
+
+        token = jwt.encode(payload, "YOUR_SECRET_KEY", algorithm="HS256")
         return token
-    
+
     def verify_jwt(self, token: str) -> Tuple[bool, Optional[Dict]]:
         """
         Verify and decode JWT token.
@@ -293,6 +285,7 @@ class AuthService:
         Args:
             token: JWT token string
             
+    
         Returns:
             Tuple of (valid: bool, payload: dict or None)
         """

@@ -76,3 +76,12 @@ flask-redis==0.4.0
 flasgger==0.9.7.1             # Swagger/OpenAPI docs
 
 # Python Version Requirement: >=3.9,<3.12
+Flask
+Flask-SQLAlchemy
+Flask-Migrate
+Flask-Cors
+Flask-Babel
+psycopg2-binary
+web3
+bcrypt
+PyJWT
