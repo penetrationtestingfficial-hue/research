@@ -1,3 +1,2 @@
-import app
-from app.survey.routes import survey_bp
-app.register_blueprint(survey_bp)
+# server/app/survey/__init__.py
+# Empty file - makes this directory a Python package

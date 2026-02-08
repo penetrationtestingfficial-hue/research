@@ -1,6 +1,5 @@
 # server/app/survey/routes.py
 from flask import Blueprint, request, jsonify
-from app.models import SurveyResponse, db
 from datetime import datetime
 
 survey_bp = Blueprint('survey', __name__, url_prefix='/api/survey')
@@ -8,6 +7,10 @@ survey_bp = Blueprint('survey', __name__, url_prefix='/api/survey')
 @survey_bp.route('/submit', methods=['POST'])
 def submit_survey():
     """Submit post-authentication survey"""
+    # Import here to avoid circular imports
+    from app import db
+    from app.models import SurveyResponse
+    
     data = request.get_json()
     
     try:

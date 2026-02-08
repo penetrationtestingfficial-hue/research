@@ -8,8 +8,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
-import os
-from app.survey.routes import survey_bp
 
 # Initialize extensions (but don't bind to app yet)
 db = SQLAlchemy()
@@ -23,29 +21,47 @@ def create_app(config_name='development'):
     app = Flask(__name__)
     
     # Load configuration
-    app.config.from_object(f'app.config.{config_name.capitalize()}Config')
+    if config_name == 'development':
+        from app.config import DevelopmentConfig
+        app.config.from_object(DevelopmentConfig)
+    elif config_name == 'testing':
+        from app.config import TestingConfig
+        app.config.from_object(TestingConfig)
+    elif config_name == 'production':
+        from app.config import ProductionConfig
+        app.config.from_object(ProductionConfig)
+    else:
+        from app.config import DevelopmentConfig
+        app.config.from_object(DevelopmentConfig)
     
     # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
     
     # Configure CORS for React frontend
-    CORS(app, resources={
+    CORS(
+    app,
+    supports_credentials=True,
+    resources={
         r"/api/*": {
-            "origins": ["http://localhost:5173", "http://127.0.0.1:5173"],
-            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+            "origins": [
+                "http://localhost:5173",
+                "http://127.0.0.1:5173"
+            ],
             "allow_headers": ["Content-Type", "Authorization"],
-            "supports_credentials": True
+            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         }
-    })
+    }
+)
     
-    # Register blueprints
+    # Register blueprints (import here to avoid circular imports)
     from app.auth.routes import auth_bp
     from app.telemetry.routes import telemetry_bp
-    app.register_blueprint(survey_bp)
-
+    from app.survey.routes import survey_bp
+    
     app.register_blueprint(auth_bp)
     app.register_blueprint(telemetry_bp)
+    app.register_blueprint(survey_bp)
     
     # Health check endpoint
     @app.route('/api/health')

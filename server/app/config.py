@@ -39,7 +39,7 @@ class DevelopmentConfig(BaseConfig):
     # Database URL
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'DATABASE_URL',
-        'postgresql://localhost/csec08_research'
+        'postgresql://postgres:admin@localhost:5432/csec08_research'
     )
     
     # Enable SQL query logging in development
@@ -47,6 +47,8 @@ class DevelopmentConfig(BaseConfig):
     
     # CORS - Allow localhost for development
     CORS_ORIGINS = ['http://localhost:5173', 'http://127.0.0.1:5173']
+
+
 
 
 class TestingConfig(BaseConfig):

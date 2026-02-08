@@ -3,9 +3,10 @@
 Telemetry API Endpoints
 Handles logging and querying of research telemetry data
 """
+from app import db
 from app.telemetry.services import TelemetryAnalyzer, TelemetryExporter
 from flask import Blueprint, request, jsonify
-from app.models import AuthLog, db
+from app.models import AuthLog
 from datetime import datetime, timedelta
 from sqlalchemy import func
 

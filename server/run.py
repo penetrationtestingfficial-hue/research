@@ -6,12 +6,15 @@ Run this file to start the development server
 
 import os
 from app import create_app
-from app.extensions import db
+from app import db
+from flask_migrate import Migrate
+
 # Determine environment
 env = os.environ.get('FLASK_ENV', 'development')
 
 # Create Flask app
-app = create_app(env)
+app = create_app(os.environ.get('FLASK_ENV', 'development'))
+migrate = Migrate(app, db)
 
 # Create database tables if they don't exist
 with app.app_context():

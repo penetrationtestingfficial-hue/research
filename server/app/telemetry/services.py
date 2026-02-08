@@ -3,7 +3,7 @@
 Telemetry Service - Data processing and analysis for research metrics
 Handles aggregation, statistical analysis, and export of telemetry data
 """
-
+from app import db
 from typing import Dict, List, Optional, Tuple
 from datetime import datetime, timedelta
 from sqlalchemy import func, and_, or_

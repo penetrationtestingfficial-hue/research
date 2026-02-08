@@ -1,4 +1,4 @@
-# app/models.py
+# server/app/models.py
 """
 SQLAlchemy ORM Models for CSEC08 Research Platform
 
@@ -7,8 +7,12 @@ Implements the dual-stack user model and telemetry logging.
 """
 
 from datetime import datetime
-from app.extensions import db
+from flask_sqlalchemy import SQLAlchemy
 import enum
+
+# Import db from __init__ to avoid circular imports
+# This will be initialized by the app factory
+db = SQLAlchemy()
 
 # ========== Enums ==========
 

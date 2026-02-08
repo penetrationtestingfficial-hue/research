@@ -7,7 +7,7 @@ Implements the dual-stack authentication API for the research platform
 from flask import Blueprint, request, jsonify
 from app.auth.services import AuthService, classify_error
 from app.models import AuthLog
-from app.database.repositories import UserRepository
+import database  
 from datetime import datetime
 from functools import wraps
 import jwt
