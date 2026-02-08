@@ -3,7 +3,13 @@
 Authentication Service - Core business logic for dual-stack authentication
 Handles both traditional password verification and DID signature verification
 """
-
+from app.auth.utils import (
+    PasswordValidator,
+    SignatureVerifier,
+    NonceGenerator,
+    ErrorClassifier,
+    format_error_response
+)
 import secrets
 import bcrypt
 from datetime import datetime, timedelta

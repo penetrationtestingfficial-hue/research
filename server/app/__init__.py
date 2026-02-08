@@ -9,6 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
 import os
+from app.survey.routes import survey_bp
 
 # Initialize extensions (but don't bind to app yet)
 db = SQLAlchemy()
@@ -41,7 +42,8 @@ def create_app(config_name='development'):
     # Register blueprints
     from app.auth.routes import auth_bp
     from app.telemetry.routes import telemetry_bp
-    
+    app.register_blueprint(survey_bp)
+
     app.register_blueprint(auth_bp)
     app.register_blueprint(telemetry_bp)
     

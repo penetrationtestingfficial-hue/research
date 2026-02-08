@@ -3,7 +3,7 @@
 Telemetry API Endpoints
 Handles logging and querying of research telemetry data
 """
-
+from app.telemetry.services import TelemetryAnalyzer, TelemetryExporter
 from flask import Blueprint, request, jsonify
 from app.models import AuthLog, db
 from datetime import datetime, timedelta
@@ -42,6 +42,12 @@ def log_event():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
+# Add new endpoint for comprehensive statistics
+@telemetry_bp.route('/analysis', methods=['GET'])
+def get_analysis():
+    """Get comprehensive analysis"""
+    analyzer = TelemetryAnalyzer(db.session)
+    return jsonify(analyzer.compare_methods()), 200
 
 @telemetry_bp.route('/stats', methods=['GET'])
 def get_statistics():
