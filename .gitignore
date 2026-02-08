@@ -1,0 +1,122 @@
+# ============================================
+# CSEC08 Research Platform - Git Ignore Rules
+# ============================================
+
+# ========== Environment Variables ==========
+.env
+.env.local
+.env.*.local
+*.env
+
+# ========== Python ==========
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Flask
+instance/
+.webassets-cache
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
+# ========== Node.js / React ==========
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+*.local
+
+# Vite
+.vite/
+
+# ========== Blockchain ==========
+# Hardhat
+cache/
+artifacts/
+typechain/
+typechain-types/
+
+# ========== Database ==========
+*.db
+*.sqlite
+*.sqlite3
+
+# PostgreSQL dumps
+*.sql.backup
+backups/*.sql
+
+# Database migrations (keep structure, ignore data)
+*.pyc
+
+# ========== IDEs ==========
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ========== OS ==========
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# ========== Research Data ==========
+# Telemetry exports (keep structure, not data)
+exports/*.csv
+exports/*.json
+!exports/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# ========== Security ==========
+# Private keys (NEVER commit!)
+*.pem
+*.key
+*.cert
+secrets/
+
+# ========== Temporary Files ==========
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ========== Build Artifacts ==========
+*.tgz
+*.zip
+*.tar.gz

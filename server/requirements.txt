@@ -1,0 +1,78 @@
+# CSEC08 Research Platform - Python Dependencies
+# Flask Backend Requirements
+
+# ========= Core Framework ==========
+Flask
+Flask-CORS
+Flask-SQLAlchemy
+Flask-Migrate
+
+# ========== Database ==========
+psycopg2-binary       # PostgreSQL adapter
+SQLAlchemy
+
+# ========== Cryptography & Web3 ==========
+web3==6.10.0                  # Ethereum interaction
+eth-account==0.9.0            # ECDSA signature verification
+eth-utils==2.2.0              # Ethereum utilities
+eth-typing==3.5.0
+hexbytes==0.3.1
+
+# ========== Password Hashing ==========
+bcrypt==4.0.1                 # Secure password hashing
+argon2-cffi==23.1.0           # Alternative password hasher (optional)
+
+# ========== JWT Authentication ==========
+PyJWT==2.8.0                  # JSON Web Tokens
+
+# ========== Environment & Configuration ==========
+python-dotenv==1.0.0          # Load .env files
+
+# ========== API & HTTP ==========
+requests==2.31.0              # HTTP library
+urllib3==2.0.4
+
+# ========== Data Processing ==========
+pandas==2.1.1                 # Data analysis (for telemetry export)
+numpy==1.25.2
+
+# ========== Validation ==========
+marshmallow==3.20.1           # Serialization/deserialization
+marshmallow-sqlalchemy==0.29.0
+
+# ========== Utilities ==========
+python-dateutil==2.8.2
+pytz==2023.3
+click==8.1.7                  # CLI utilities
+
+# ========== Testing (Development) ==========
+pytest==7.4.2
+pytest-flask==1.2.0
+pytest-cov==4.1.0
+
+# ========== Code Quality (Development) ==========
+black==23.9.1                 # Code formatter
+flake8==6.1.0                 # Linter
+mypy==1.5.1                   # Type checker
+
+# ========== Monitoring & Logging ==========
+python-json-logger==2.0.7
+
+# ========== Production Server (Optional) ==========
+gunicorn==21.2.0              # WSGI HTTP Server
+gevent==23.9.1                # Async workers
+
+# ========== Security Headers ==========
+flask-talisman==1.1.0         # Security headers
+
+# ========== Rate Limiting (Optional) ==========
+Flask-Limiter==3.5.0
+
+# ========== Redis Cache (Optional - for nonce storage) ==========
+redis==5.0.0
+flask-redis==0.4.0
+
+# ========== Documentation ==========
+flasgger==0.9.7.1             # Swagger/OpenAPI docs
+
+# Python Version Requirement: >=3.9,<3.12

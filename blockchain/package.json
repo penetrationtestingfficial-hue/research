@@ -1,0 +1,21 @@
+{
+  "name": "csec08-blockchain",
+  "version": "1.0.0",
+  "description": "Local Hardhat blockchain for CSEC08 research platform",
+  "scripts": {
+    "node": "hardhat node",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "clean": "hardhat clean"
+  },
+  "keywords": [
+    "hardhat",
+    "ethereum",
+    "research",
+    "local-blockchain"
+  ],
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.0"
+  }
+}
