@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CSEC08 Wallet</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      width: 380px;
+      min-height: 500px;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: white;
+    }
+    
+    /* All screens hidden by default */
+    .screen { display: none; }
+    
+    .header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .header h1 { font-size: 20px; margin-bottom: 5px; }
+    .header p { font-size: 11px; opacity: 0.9; }
+    
+    .back-btn {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    
+    .content { padding: 20px; }
+    
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: transform 0.2s;
+    }
+    
+    .btn:hover { transform: translateY(-2px); }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background: white;
+      color: #333;
+      border: 2px solid #ddd;
+    }
+    
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .divider {
+      text-align: center;
+      color: #999;
+      margin: 15px 0;
+      font-size: 12px;
+    }
+    
+    .key-box, .address-box {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 11px;
+      word-break: break-all;
+      margin: 10px 0;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+    
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+    
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 13px;
+      margin: 8px 0;
+    }
+    
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background: #f9f9f9;
+      border-radius: 6px;
+      margin: 12px 0;
+    }
+    
+    .checkbox-group input {
+      margin-right: 10px;
+    }
+    
+    .checkbox-group label {
+      margin: 0;
+      font-size: 13px;
+      text-transform: none;
+      font-weight: normal;
+    }
+    
+    .wallet-card {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .wallet-card .address-box {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+    
+    .warning {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 12px;
+      margin: 12px 0;
+      font-size: 12px;
+      color: #92400e;
+      border-radius: 4px;
+    }
+    
+    .error {
+      background: #fee2e2;
+      border-left: 4px solid #ef4444;
+      padding: 12px;
+      margin: 12px 0;
+      font-size: 12px;
+      color: #991b1b;
+      border-radius: 4px;
+      display: none;
+    }
+    
+    .info {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen 1: No Wallet -->
+  <div id="no-wallet" class="screen">
+    <div class="header">
+      <h1>🔐 CSEC08 Wallet</h1>
+      <p>Research Authentication</p>
+    </div>
+    <div class="content">
+      <p class="info">Create or import a wallet to continue</p>
+      <button id="btn-create" class="btn btn-primary">Create New Wallet</button>
+      <div class="divider">OR</div>
+      <button id="btn-import" class="btn btn-secondary">Import Wallet</button>
+    </div>
+  </div>
+
+  <!-- Screen 2: Create Wallet -->
+  <div id="create-wallet" class="screen">
+    <div class="header">
+      <button class="back-btn" id="back-create">← Back</button>
+      <h1>Create Wallet</h1>
+    </div>
+    <div class="content">
+      <div class="warning">
+        <strong>⚠️ Save your private key!</strong><br>
+        You'll need it to import your wallet later.
+      </div>
+      
+      <label>Private Key</label>
+      <div class="key-box" id="create-key">Click Generate</div>
+      <button id="btn-copy-create" class="btn btn-secondary">Copy Key</button>
+      
+      <label>Wallet Address</label>
+      <div class="address-box" id="create-address">Will be generated</div>
+      
+      <div class="checkbox-group">
+        <input type="checkbox" id="confirm-saved">
+        <label for="confirm-saved">I have saved my private key</label>
+      </div>
+      
+      <button id="btn-save-wallet" class="btn btn-primary" disabled>Create Wallet</button>
+    </div>
+  </div>
+
+  <!-- Screen 3: Import Wallet -->
+  <div id="import-wallet" class="screen">
+    <div class="header">
+      <button class="back-btn" id="back-import">← Back</button>
+      <h1>Import Wallet</h1>
+    </div>
+    <div class="content">
+      <label>Enter Private Key</label>
+      <input type="password" id="import-key" placeholder="0x...">
+      <button id="btn-toggle-import" class="btn btn-secondary">Show</button>
+      
+      <div id="import-error" class="error"></div>
+      
+      <button id="btn-do-import" class="btn btn-primary">Import Wallet</button>
+    </div>
+  </div>
+
+  <!-- Screen 4: Wallet Dashboard -->
+  <div id="dashboard" class="screen">
+    <div class="header">
+      <h1>My Wallet</h1>
+    </div>
+    <div class="content">
+      <div class="wallet-card">
+        <label>Address</label>
+        <div class="address-box" id="dash-address">0x...</div>
+        <button id="btn-copy-address" class="btn btn-secondary">Copy</button>
+      </div>
+      
+      <div class="actions">
+        <button id="btn-export" class="btn btn-secondary">Export Key</button>
+        <button id="btn-delete" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 5: Export Key -->
+  <div id="export-screen" class="screen">
+    <div class="header">
+      <button class="back-btn" id="back-export">← Back</button>
+      <h1>Export Private Key</h1>
+    </div>
+    <div class="content">
+      <div class="warning">
+        <strong>⚠️ Never share your private key!</strong>
+      </div>
+      
+      <label>Your Private Key</label>
+      <div class="key-box" id="export-key">Hidden</div>
+      <button id="btn-reveal" class="btn btn-secondary">Reveal</button>
+      <button id="btn-copy-export" class="btn btn-secondary" style="display:none;">Copy</button>
+    </div>
+  </div>
+
+  <!-- Screen 6: Sign Request -->
+  <div id="sign-request" class="screen">
+    <div class="header">
+      <h1>Sign Message</h1>
+    </div>
+    <div class="content">
+      <div class="warning">
+        <strong>Site requesting signature:</strong><br>
+        <span id="req-origin">localhost</span>
+      </div>
+      
+      <label>Message</label>
+      <div class="key-box" id="req-message">Loading...</div>
+      
+      <div class="actions">
+        <button id="btn-reject" class="btn btn-secondary">Reject</button>
+        <button id="btn-approve" class="btn btn-primary">Sign</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

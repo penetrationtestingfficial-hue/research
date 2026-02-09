@@ -1,50 +1,24 @@
-# server/run.py
-"""
-Flask Application Entry Point
-Run this file to start the development server
-"""
+from app import create_app, db
 
-import os
-from app import create_app
-from app import db
-from flask_migrate import Migrate
-
-# Determine environment
-env = os.environ.get('FLASK_ENV', 'development')
-
-# Create Flask app
-app = create_app(os.environ.get('FLASK_ENV', 'development'))
-migrate = Migrate(app, db)
-
-# Create database tables if they don't exist
-with app.app_context():
-    db.create_all()
-    print("✅ Database tables created/verified")
+app = create_app()
 
 if __name__ == '__main__':
-    print(f"""
-    ╔════════════════════════════════════════════════════╗
-    ║   CSEC08 Research Platform - Backend Server       ║
-    ║   Environment: {env:<35} ║
-    ╚════════════════════════════════════════════════════╝
+    with app.app_context():
+        db.create_all()
+        print("✅ Database initialized")
+        
+        # Create test user
+        from app.models import User
+        from werkzeug.security import generate_password_hash
+        
+        if not User.query.filter_by(username='student001').first():
+            user = User(
+                username='student001',
+                password_hash=generate_password_hash('test123')
+            )
+            db.session.add(user)
+            db.session.commit()
+            print("✅ Test user created: student001 / test123")
     
-    🚀 Server starting...
-    📍 API Base URL: http://127.0.0.1:5000/api
-    📊 Health Check: http://127.0.0.1:5000/api/health
-    
-    Available endpoints:
-    • POST /api/auth/register/traditional
-    • POST /api/auth/login/traditional
-    • GET  /api/auth/nonce/<address>
-    • POST /api/auth/verify
-    • GET  /api/auth/session
-    • POST /api/telemetry/log
-    
-    Press CTRL+C to stop
-    """)
-    
-    app.run(
-        host='127.0.0.1',
-        port=5000,
-        debug=True if env == 'development' else False
-    )
+    print("\n🚀 Starting Flask server on http://127.0.0.1:5000")
+    app.run(debug=True, port=5000)

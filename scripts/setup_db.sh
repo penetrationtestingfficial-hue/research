@@ -2,6 +2,9 @@
 set -e  # Exit on first error
 set -u  # Treat unset variables as error
 
+#psql postgresql://csec08_user:admin123@localhost:5432/csec08_research
+
+
 # ===============================
 # CONFIGURATION - MODIFY AS NEEDED
 # ===============================
